@@ -1,3 +1,5 @@
+import returnString from './other.js';
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -7,20 +9,20 @@ var app = new Vue({
   computed: {
     // a computed getter
     reversedMessage: function () {
-      // `this` points to the vm instance
-      this.load()
       return this.message
     }
   },
 
   methods: {
      load() {
+      var self = this
+      var returnedString = returnString()
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-          var test = JSON.parse(xhr.response).result
-          for(var t in test){
-            app._data.results.push(test[t].result.ccg)
+          var postcodeResults = JSON.parse(xhr.response).result
+          for(var i in postcodeResults){
+            self.results.push(postcodeResults[i].result.ccg)
           }
         }
       }
